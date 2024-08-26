@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/propage.css}"/>
+	<link rel="stylesheet" th:href="@{/main.css}"/>
+	<link rel="stylesheet" th:href="@{/navstyle4.css}"/>
+	<link rel="stylesheet" th:href="@{/footerstyle.css}"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>전문가 마이페이지</title>
+</head>
+<body>
+	<nav th:replace="~{navbar :: navbarFragment}"></nav>
+    <div class="main-container">
+        <div class="user-form">
+            <h2>전문가 마이페이지</h2>
+            <div class="user-info">
+                <img th:if="${member.profileImage}" th:src="@{'/uploads/' + ${member.profileImage}}" alt="프로필 이미지" style="width: 200px; height: 200px;">
+				<img th:unless="${member.profileImage}" src="/image/profile0.jpg" alt="기본 프로필 이미지" style="width: 200px; height: 200px;">
+            </div>
+
+            <div class="user-info">
+                <label>이름</label>
+                <input type="text" th:value="${member.memberName}" class="form-control" readonly>
+            </div>
+            <div class="user-info">
+                <label>생년월일</label>
+                <input type="text" th:value="${member.birth}" class="form-control" readonly>
+            </div>
+            <div class="user-info">
+                <label>전화번호</label>
+                <input type="text" th:value="${member.phone}" class="form-control" readonly>
+            </div>
+            <div class="user-info">
+                <label>이메일</label>
+                <input type="text" th:value="${member.email}" class="form-control" readonly>
+            </div>
+            <div class="user-info">
+                <label>주소</label>
+                <input type="text" th:value="${member.address}" class="form-control" readonly>
+            </div>
+        </div>
+
+        <div class="info-form">
+            <div class="lesson-form">
+                <div class="create-lesson">
+                	<form th:action="@{/lesson/create}" method="get" class="lessoncre">
+                    	<button type="submit" class="btn-register">강의 등록하기</button>
+                    </form>	
+                    <div class="btn-text">내 전문분야에 기반한 새로운 나만의 강의 만들기</div><br>
+                </div>
+            </div>
+            <div class="admin-form">
+                <div class="admin-lesson">
+                    <button type="button" class="btn-lesson">레슨 관리</button>
+                    <div class="btn-text">등록한 강의 관리<br>내가 등록한 강의 페이지로 이동<br>등록한 강의 정보 수정 및 삭제</div><br>
+                </div>
+                <div class="admin-member">
+                    <button type="button" class="btn-student">수강생 관리</button>
+                    <div class="btn-text">내 강의 수강생 관리하기<br>내 강의에 등록한 수강생 현황 및 관리</div><br>
+                </div>
+                <div class="admin-post">
+                    <button type="button" class="btn-post">게시글 관리</button>
+                    <div class="btn-text">등록한 레슨의 게시글 관리하기<br>회원이 등록한 강의 관련 문의 확인<br>작성한 게시글 및 댓글 관리</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+   	<form th:action="@{/member/mypage}" method="get" class="memform">
+   		<button type="submit" onclick="showLoading()">마이 페이지로 이동</button>
+	</form>
+    
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            fetch(this.action, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+                location.reload(); // 페이지 새로고침
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('업로드 중 오류가 발생했습니다: ' + error.message);
+            });
+        });
+    </script>
+	<footer th:replace="~{footer :: footerFragment}"></footer>
+</body>
+</html>

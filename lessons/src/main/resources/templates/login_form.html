@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" href="/login_form.css"/>
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+/>
+<title>로그인</title>
+</head>
+
+<body>
+	<div class="container">
+		<h2>로그인</h2>
+		<form th:action="@{/member/login}" method="post" id="login_form" name="f">
+			<div class="login_input">
+				<input type="text" name="username" id="username" placeholder="아이디">
+				<input type="password" name="password" id="password" placeholder="비밀번호">
+			</div>
+			<div class="submit_button">
+				<input type="submit" value="로그인">
+				
+			</div>
+			<div class="join_input">
+			<input type="button" value="회원가입" onclick="location.href='/member/signup'">
+			<input type="button" value="아이디/비빌번호 찾기">
+			</div>
+		</form>
+	</div>
+	
+	<div th:if="${param.error}" class="alert alert-danger">
+	    <script>
+	        alert("아이디/비밀번호를 확인해 주세요");
+	    </script>
+	</div>
+	
+</body>
+
+</html>

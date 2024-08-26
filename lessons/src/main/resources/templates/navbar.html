@@ -1,0 +1,82 @@
+<nav th:fragment="navbarFragment">
+    <div class="navTop">
+        <div class="logoCover">
+            <a class="logo" th:href="@{/}">
+                <img src="/mp/lesson82logo.jpg">
+            </a>
+        </div>
+
+		<form th:action="@{/lesson/List}" method="get" class="searchForm">
+		    
+			<div class="searchContainer">
+				
+				<div class="searchTypeWrapper">
+				    <select name="searchType" class="searchType-select">
+				        <option value="all" th:selected="${searchType == 'all'}">전체</option>
+				        <option value="title" th:selected="${searchType == 'title'}">강의 제목</option>
+				        <option value="instructor" th:selected="${searchType == 'instructor'}">강사명</option>
+				    </select>
+				</div>
+				
+		        <div class="searchInputWrapper">
+		            <input type="text" name="kw" placeholder="오늘은 어떤 레슨을 들어볼까?" th:value="${kw}">
+		            <button type="submit">
+		                <i class="fa-solid fa-magnifying-glass"></i>
+		            </button>
+		        </div>
+
+		    </div>
+		</form>
+        <div class="secnav" sec:authorize="isAuthenticated()">
+            <a th:href="@{/cart/cartList}">장바구니</a>
+        </div>
+        <div class="secnav2" sec:authorize="isAnonymous()">
+            <a th:href="@{/member/login}">로그인</a>
+        </div>
+        <div class="secnav" sec:authorize="isAuthenticated()">
+            <a th:href="@{/member/mypage}">마이페이지</a>
+        </div>
+        <div class="navsignup" sec:authorize="isAnonymous()">
+            <a th:href="@{/member/signup}">회원가입</a>
+        </div>
+		<div th:if="${isAdmin}">
+		    <a th:href="@{/admins}">관리자페이지</a>
+		</div>
+        <div class="user" sec:authorize="isAuthenticated()">
+            <a th:href="@{#}"><img th:src="@{/uploads/{imageName}(imageName=${profileImageName})}" class="rounded-image"></a>
+            <ul>
+                <li><a th:href="@{#}">프로필관리</a></li>
+                <li><a th:href="@{#}">내가 쓴 글</a></li>
+                <li><a th:href="@{#}">나의 레슨</a></li>
+                <li><a th:href="@{/member/logout}">로그아웃</a></li>
+            </ul>
+        </div>
+    </div>
+
+	<div class="category-container">
+	  <div class="category">
+	    <ul class="mainCategory">
+	      <li>
+	        <a href="#">전체 카테고리</a>
+	        <ul class="subCategory">
+	          <li th:each="entry, entryStat : ${categories}" th:if="${entryStat.index < 100}">
+	            <a th:href="@{/lesson/List(kw=${entry.key}, searchType='category')}" th:text="${entry.key}"></a>
+	            <ul class="sub2Category">
+	              <li th:each="subCategory : ${entry.value}">
+	                <a th:href="@{/lesson/List(kw=${subCategory}, searchType='category')}" th:text="${subCategory}"></a>
+	              </li>
+	              <li><a href="#">기타</a></li>
+	            </ul>
+	          </li>
+	        </ul>
+	      </li>
+	      <!-- 메인 카테고리 항목들 -->
+	      <li th:each="entry, entryStat : ${categories}" th:if="${entryStat.index < 8}">
+	        <a th:href="@{/lesson/List(kw=${entry.key}, searchType='category')}" th:text="${entry.key}"></a>
+	      </li>
+		  <!--<li><a href="#" class="nav_promotion">프로모션</a></li>
+		  <li><a href="#" class="nav_event">이벤트</a></li> -->
+	    </ul>
+	  </div>
+	</div>
+</nav>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카테고리 리스트</title>
+    <link rel="stylesheet" th:href="@{/lesson_cate_list3.css}">
+    <link rel="stylesheet" th:href="@{/navstyle4.css}">
+	<link rel="stylesheet" th:href="@{/footerstyle.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/1f2e8e4916.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <nav th:replace="~{navbar :: navbarFragment}"></nav>
+    <main>
+        <div class="list_container">
+           <aside>
+<div th:if="${categoryMap.containsKey('전체 카테고리')}">
+    <h1>전체 카테고리</h1>
+    <ul class="fircate_name">
+        <li th:each="firClass : ${categoryMap['전체 카테고리']}">
+            <a th:href="@{'List?kw=' + ${firClass}}">
+                <i class="fas fa-chart-line"></i>
+                <span th:text="${firClass}"></span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div th:unless="${categoryMap.containsKey('전체 카테고리')}">
+    <!-- 선택된 카테고리 -->
+    <div th:each="entry : ${categoryMap}" th:if="${entry.key != 'otherFirClasses'}">
+        <h1 th:text="${entry.key}"></h1>
+        <ul class="seccate_name">
+            <li th:each="category : ${entry.value}">
+                <a th:href="@{'List?kw=' + ${category.secClass}}">
+                    <i class="fas fa-chart-line"></i>
+                    <span th:text="${category.secClass}"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- 다른 카테고리들 -->
+    <div th:if="${categoryMap.containsKey('otherFirClasses')}">
+        <h2>다른 카테고리</h2>
+        <ul class="fircate_name">
+            <li th:each="firClass : ${categoryMap['otherFirClasses']}">
+                <a th:href="@{'List?kw=' + ${firClass}}">
+                    <i class="fas fa-chart-line"></i>
+                    <span th:text="${firClass}"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</aside>
+            <section class="products">
+                <div class="product" th:each="lessonData : ${paging.content}">
+                    <a th:href="@{'detail/' + ${lessonData.lesson.lessonNum}}">
+                        <img th:src="@{'/lessonimg/LESSON' + ${lessonData.lesson.lessonNum} + '.jpg'}" th:alt="${lessonData.lesson.lname}">
+                        <div class="product-info">
+                            <h3 th:text="${lessonData.lesson.lname}"></h3>
+                            <p class="rating">
+                                <i class="fas fa-star"></i> 4.9 <span>(7,054)</span>
+                            </p>
+                            <p class="price" th:text="${lessonData.lessonOption != null ? '￦ ' + #numbers.formatDecimal(lessonData.lessonOption.price, 0, 'COMMA', 0, 'POINT') : '가격 정보 없음'}"></p>
+                            <p class="instructor" th:text="${lessonData.memberName}"></p>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+	<footer th:replace="~{footer :: footerFragment}"></footer>
+</body>
+</html>

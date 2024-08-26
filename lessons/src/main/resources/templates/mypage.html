@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" th:href="@{/main.css}"/>
+	<link rel="stylesheet" th:href="@{/login_form.css}"/>
+    <link rel="stylesheet" th:href="@{/mypage.css}"/>
+    <link rel="stylesheet" th:href="@{/navstyle4.css}"/>
+	<link rel="stylesheet" th:href="@{/footerstyle.css}"/>
+	<script src="https://kit.fontawesome.com/1f2e8e4916.js" crossorigin="anonymous"></script>
+    <title>마이 페이지</title>
+</head>
+<body>
+    <nav th:replace="~{navbar :: navbarFragment}"></nav>
+    
+    <div th:if="${message}" th:text="${message}"
+         style="padding: 10px; margin: 10px 0; border-radius: 4px; background-color: #dff0d8; border: 1px solid #d6e9c6; color: #3c763d;">
+    </div>
+
+    <div th:if="${error}" th:text="${error}"
+         style="padding: 10px; margin: 10px 0; border-radius: 4px; background-color: #f2dede; border: 1px solid #ebccd1; color: #a94442;">
+    </div>
+
+    <div class="main-container">
+        <div class="user-form">
+            <div class="header">
+                <h2>마이 프로필</h2>
+                <button type="button" class="member-mod" th:data-member-id="${member.memberId}">
+                    <img src="/image/mod.png" alt="회원 정보 수정">
+                </button>
+            </div>
+            
+            <div class="user-info">
+                <img th:if="${member.profileImage}" th:src="@{'/uploads/' + ${member.profileImage}}" alt="프로필 이미지" style="width: 200px; height: 200px;">
+                <img th:unless="${member.profileImage}" src="/image/profile0.jpg" alt="기본 프로필 이미지" style="width: 200px; height: 200px;">
+                
+                <form th:action="@{/member/upload}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="memberNum" th:value="${member.memberNum}">
+                    <div class="upload-container">
+                        <div class="file-input-container">
+                            <span class="custom-file-button" onclick="document.getElementById('fileInput').click()">파일 선택</span>
+                            <input id="fileInput" class="file-input" type="file" name="file" accept="image/*">
+                        </div>
+                        <button type="submit">프로필 이미지 업로드</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="user-info">
+                <label>이름</label>
+                <input type="text" th:value="${member.memberName}" class="form-control" style="width:250px;" readonly>
+            </div>
+            <div class="user-info">
+                <label>생년월일</label>
+                <input type="text" th:value="${member.birth}" class="form-control" style="width:250px;" readonly>
+            </div>
+            <div class="user-info">
+                <label>전화번호</label>
+                <input type="text" th:value="${member.phone}" class="form-control" style="width:250px;" readonly>
+            </div>
+            <div class="user-info">
+                <label>이메일</label>
+                <input type="text" th:value="${member.email}" class="form-control" style="width:250px;" readonly>
+            </div>
+            <div class="user-info">
+                <label>주소</label>
+                <input type="text" th:value="${member.address}" class="form-control" style="width:250px;" readonly>
+            </div>
+			
+        </div>
+        
+		<div class="enrolled-lessons">
+		    <h2>My Lesson</h2>
+		    <div th:each="enrollmentWithOption : ${enrollmentsWithOptions}" class="lesson-info">
+		        <div class="lesson-content">
+		            <div class="lesson-image">
+		                <img th:if="${enrollmentWithOption.enrollment.lesson != null and enrollmentWithOption.enrollment.lesson.lessonImage != null}"
+		                     th:src="@{'/lessonimg/' + ${enrollmentWithOption.enrollment.lesson.lessonImage}}"
+		                     alt="레슨 이미지">
+		                <img th:unless="${enrollmentWithOption.enrollment.lesson != null and enrollmentWithOption.enrollment.lesson.lessonImage != null}"
+		                     src="/image/lesson0.jpg"
+		                     alt="기본 레슨 이미지">
+		            </div>
+		            <div class="lesson-details">
+		                <h3 th:text="${enrollmentWithOption.enrollment.lesson != null} ? ${enrollmentWithOption.enrollment.lesson.lname} : 'No lesson name'">레슨 이름</h3>
+		                <p><strong>레슨설명:</strong> <span th:text="${enrollmentWithOption.enrollment.lesson != null} ? ${enrollmentWithOption.enrollment.lesson.introduce} : 'No introduce'">레슨 설명</span></p>
+		                <p><strong>옵션:</strong> <span th:text="${enrollmentWithOption.lessonOption != null} ? ${enrollmentWithOption.lessonOption.loption} : 'No option'">옵션</span></p>
+		                <p><strong>총 강의 횟수:</strong> <span th:text="${enrollmentWithOption.lessonOption != null} ? ${enrollmentWithOption.lessonOption.totaldate} : 'No total date'">총 강의 횟수</span></p>
+		                <p><strong>결제 상태:</strong> <span th:text="${enrollmentWithOption.enrollment.paymentState}">결제 상태</span></p>
+		                
+		                <!-- 결제 상태에 따라 버튼 표시 -->
+		                <form th:if="${enrollmentWithOption.enrollment.paymentState != '결제완료'}"
+		                      th:action="@{/order/pay/{id}(id=${enrollmentWithOption.enrollment.id})}" method="post">
+		                    <button type="submit" class="action-button">결제</button>
+		                </form>
+		                <a th:if="${enrollmentWithOption.enrollment.paymentState == '결제완료'}"
+		                   th:href="@{'/lesson/detail/' + ${enrollmentWithOption.enrollment.lesson.lessonNum}}"
+		                   class="btn-primary">상세 페이지로 이동</a>
+		            </div>
+		        </div>
+		    </div>
+		    <div th:if="${enrollmentsWithOptions == null or enrollmentsWithOptions.empty}" class="no-lessons">
+		        <p>등록된 강의가 없습니다.</p>
+		    </div>
+		</div>
+    </div>
+    
+    <form th:action="@{/pro/propage}" method="get" class="proform" th:if="${member.proNum != null}">
+        <button type="submit" onclick="showLoading()">프로 페이지로 이동</button>
+    </form>
+
+    <form th:action="@{/pro/procre_form}" method="get" class="proform" th:unless="${member.proNum != null}">
+        <input type="hidden" name="memberNum" th:value="${member.memberNum}">
+        <button type="submit">프로 가입하기</button>
+    </form>
+
+    <div id="loadingMessage" style="display: none;">프로 페이지로 이동 중...</div>
+
+    <script>
+    function showLoading() {
+        document.getElementById('loadingMessage').style.display = 'block';
+    }
+
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+        // 파일 선택 이벤트 처리
+    });
+
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        var formData = new FormData(this);
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(result => {
+            alert(result);
+            location.reload(); // 페이지 새로고침
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('업로드 중 오류가 발생했습니다: ' + error.message);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const modifyButton = document.querySelector('.member-mod');
+        modifyButton.addEventListener('click', () => {
+            const memberId = modifyButton.getAttribute('data-member-id');
+            location.href = `/member/modify/${memberId}`;
+        });
+    });
+    </script>
+	<footer th:replace="~{footer :: footerFragment}"></footer>
+</body>
+</html>

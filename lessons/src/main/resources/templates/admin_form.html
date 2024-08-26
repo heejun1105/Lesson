@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 페이지</title>
+	<style>
+	body {
+	    font-family: Arial, sans-serif;
+	    line-height: 1.6;
+	    margin: 0;
+	    padding: 20px;
+	    background-color: #f4f4f4;
+	}
+
+	h1 {
+	    color: #333;
+	    border-bottom: 2px solid #333;
+	    padding-bottom: 10px;
+	}
+
+	table {
+	    width: 100%;
+	    border-collapse: collapse;
+	    margin-bottom: 20px;
+	    background-color: white;
+	}
+
+	th, td {
+	    border: 1px solid #ddd;
+	    padding: 12px;
+	    text-align: left;
+	}
+
+	th {
+	    background-color: #f2f2f2;
+	    font-weight: bold;
+	}
+
+	tr:nth-child(even) {
+	    background-color: #f9f9f9;
+	}
+
+	a {
+	    color: #0066cc;
+	    text-decoration: none;
+	    margin-right: 10px;
+	}
+
+	a:hover {
+	    text-decoration: underline;
+	}
+
+	.category-container {
+	    display: flex;
+	    flex-wrap: wrap;
+	    gap: 20px;
+	}
+
+	.category-group {
+	    flex: 1 1 300px;
+	    background-color: #f8f8f8;
+	    border-radius: 8px;
+	    padding: 15px;
+	    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	}
+
+	.category-group h3 {
+	    margin-top: 0;
+	    margin-bottom: 10px;
+	    padding-bottom: 5px;
+	    border-bottom: 2px solid #ddd;
+	}
+
+	.subcategories {
+	    max-height: 300px;
+	    overflow-y: auto;
+	}
+
+	.category-item {
+	    background-color: white;
+	    border: 1px solid #ddd;
+	    border-radius: 4px;
+	    margin-bottom: 10px;
+	    overflow: hidden;
+	}
+
+	.category-info {
+	    padding: 10px;
+	}
+
+	.category-info span {
+	    font-weight: bold;
+	    display: block;
+	    margin-bottom: 5px;
+	}
+
+	.input-group {
+	    display: flex;
+	    align-items: center;
+	    margin-bottom: 5px;
+	}
+
+	.input-group label {
+	    width: 60px;
+	    font-weight: bold;
+	    margin-right: 5px;
+	}
+
+	.input-group input {
+	    flex: 1;
+	    padding: 5px;
+	    border: 1px solid #ddd;
+	    border-radius: 4px;
+	}
+
+	.category-actions {
+	    display: flex;
+	    border-top: 1px solid #ddd;
+	}
+
+	.category-actions button,
+	.category-actions a {
+	    flex: 1;
+	    padding: 8px;
+	    border: none;
+	    cursor: pointer;
+	    text-align: center;
+	    text-decoration: none;
+	    font-size: 14px;
+	    transition: background-color 0.3s, color 0.3s;
+	}
+
+	.category-actions button {
+	    background-color: #f0f0f0;
+	    color: #333;
+	}
+
+	.category-actions a {
+	    background-color: #f5f5f5;
+	    color: #333;
+	}
+
+	.category-actions button:hover,
+	.category-actions a:hover {
+	    background-color: #e0e0e0;
+	}
+
+	.action-button {
+	    background-color: #f0f0f0;
+	    border: 1px solid #ddd;
+	    color: #333333;
+	    padding: 8px 16px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 14px;
+	    margin: 4px 2px;
+	    cursor: pointer;
+	    border-radius: 4px;
+	    transition: background-color 0.3s, color 0.3s;
+	}
+
+	.action-button:hover {
+	    background-color: #e0e0e0;
+	    color: #000;
+	}
+
+	.message {
+	    padding: 10px;
+	    margin: 10px 0;
+	    border-radius: 4px;
+	}
+
+	.success {
+	    background-color: #dff0d8;
+	    border: 1px solid #d6e9c6;
+	    color: #3c763d;
+	}
+
+	.error {
+	    background-color: #f2dede;
+	    border: 1px solid #ebccd1;
+	    color: #a94442;
+	}
+
+	.banner-management {
+	    background-color: #fff;
+	    border-radius: 8px;
+	    padding: 20px;
+	    margin-bottom: 30px;
+	    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+	}
+
+	.banner-form {
+	    display: grid;
+	    gap: 15px;
+	    margin-bottom: 30px;
+	}
+
+	.form-group {
+	    display: flex;
+	    flex-direction: column;
+	}
+
+	.form-group label {
+	    margin-bottom: 5px;
+	    font-weight: bold;
+	}
+
+	.form-group input,
+	.form-group select {
+	    padding: 8px;
+	    border: 1px solid #ddd;
+	    border-radius: 4px;
+	}
+
+	.btn-upload {
+	    background-color: #f0f0f0;
+	    color: #333333;
+	    padding: 10px 15px;
+	    border: 1px solid #ddd;
+	    border-radius: 4px;
+	    cursor: pointer;
+	    font-size: 16px;
+	    transition: background-color 0.3s, color 0.3s;
+	}
+
+	.btn-upload:hover {
+	    background-color: #e0e0e0;
+	    color: #000;
+	}
+
+	.banner-list {
+	    display: grid;
+	    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	    gap: 20px;
+	}
+
+	.banner-item {
+	    border: 1px solid #ddd;
+	    border-radius: 8px;
+	    overflow: hidden;
+	    transition: box-shadow 0.3s ease;
+	}
+
+	.banner-item:hover {
+	    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+	}
+
+	.banner-item img {
+	    width: 100%;
+	    height: 150px;
+	    object-fit: cover;
+	}
+
+	.banner-info {
+	    padding: 15px;
+	}
+
+	.banner-actions {
+	    display: flex;
+	    justify-content: space-between;
+	    padding: 10px 15px;
+	    background-color: #f8f8f8;
+	}
+	</style>
+</head>
+		
+<body>
+	<h1>배너관리 하기</h1>
+	<div class="banner-management">
+	    <form th:action="@{/admin/banner}" method="post" enctype="multipart/form-data" class="banner-form">
+	        <div class="form-group">
+	            <label for="file">이미지:</label>
+	            <input type="file" id="file" name="file" required>
+	        </div>
+	        <div class="form-group">
+	            <label for="link">주소:</label>
+	            <input type="text" id="link" name="link" placeholder="https://example.com" required>
+	        </div>
+	        <div class="form-group">
+	            <label for="order">배너 선택:</label>
+	            <select id="num" name="num">
+	                <option value="1">Banner 1</option>
+	                <option value="2">Banner 2</option>
+	                <option value="3">Banner 3</option>
+	                <option value="4">Banner 4</option>
+	                <option value="5">Banner 5</option>
+	            </select>
+	        </div>
+	        <button type="submit" class="btn-upload">Upload Banner</button>
+	    </form>
+
+	    <h2>현재 배너들</h2>
+	    <div class="banner-list">
+	        <div th:each="banner : ${banners}" class="banner-item">
+	            <img th:src="@{'/banner/' + ${banner.imageName}}" alt="Banner Image">
+	            <div class="banner-info">
+	                <p><strong>주소:</strong> <a th:href="${banner.link}" th:text="${banner.link}" target="_blank"></a></p>
+	                <p><strong>banner</strong> <span th:text="${banner.num}"></span></p>
+	            </div>	            
+	        </div>
+	    </div>
+	</div>
+	
+	
+	<h1>테스트용</h1>
+	<table>
+	    <thead>
+	        <tr>
+	            <th>장바구니 담기</th>
+	            <th>결제 대기 등록</th>
+				<th>카테고리 등록</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr>
+	            <td>
+	                <form th:action="@{/cart/add}" method="post">
+	                    <div class="input-group">
+	                        <label for="cartLessonNum">레슨 번호:</label>
+	                        <input type="text" id="cartLessonNum" name="lessonNum" required>
+	                    </div>
+	                    <div class="input-group">
+	                        <label for="cartMemberNum">회원 번호:</label>
+	                        <input type="text" id="cartMemberNum" name="memberNum" required>
+	                    </div>
+						
+						<div class="input-group">
+						        <label>옵션 선택:</label>
+						        <div>
+						            <input type="radio" id="optB" name="opt" value="b" required>
+						            <label for="optB">b</label>
+						        </div>
+						        <div>
+						            <input type="radio" id="optS" name="opt" value="s" required>
+						            <label for="optS">s</label>
+						        </div>
+						        <div>
+						            <input type="radio" id="optP" name="opt" value="p" required>
+						            <label for="optP">p</label>
+						        </div>
+						    </div>
+						
+	                    <button type="submit" class="action-button">장바구니 담기</button>
+	                </form>
+	            </td>
+	            <td>
+	                <form th:action="@{/order/create}" method="post">
+	                    <div class="input-group">
+	                        <label for="orderLessonNum">수업 번호:</label>
+	                        <input type="text" id="orderLessonNum" name="lessonNum" required>
+	                    </div>
+	                    <div class="input-group">
+	                        <label for="orderMemberNum">회원 번호:</label>
+	                        <input type="text" id="orderMemberNum" name="memberNum" required>
+	                    </div>
+						
+						<div class="input-group">
+						<label>옵션 선택:</label>
+						<div>
+								<input type="radio" id="optB" name="opt" value="b" required>
+								<label for="optB">b</label>
+						</div>
+						<div>
+								<input type="radio" id="optS" name="opt" value="s" required>
+								<label for="optS">s</label>
+								</div>
+						<div>
+								<input type="radio" id="optP" name="opt" value="p" required>
+								<label for="optP">p</label>
+								</div>
+						</div>
+													
+	                    <button type="submit" class="action-button">등록</button>
+	                </form>
+	            </td>
+				<td>
+					<form th:action="@{/category/create}" th:object="${categoryCreateForm}" method="post">
+						<div class="input-group">
+						대분류 : <input type="text" name="firClass">
+						</div>
+						<div class="input-group">
+						소분류 : <input type="text" name="secClass">
+						</div>
+						<button type="submit" class="action-button">등록</button>       
+					 </form>
+					
+				</td>
+	        </tr>
+	    </tbody>
+	</table>
+
+	<div th:if="${message}" th:text="${message}" class="message success"></div>
+	<div th:if="${error}" th:text="${error}" class="message error"></div>
+	
+
+	<h1>결제</h1>
+	<table>
+	    <thead>
+	        <tr>
+	            <th>번호</th>
+	            <th>강의 넘버</th>
+	            <th>맴버 넘버</th>
+				<th>강의 옵션</th>
+	            <th>결제 상태</th>
+	            <th>수정일</th>
+	            <th>작업</th>
+				
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr th:each="Enrollment : ${Enrollment}">
+	            <td th:text="${Enrollment.id}"></td>
+	            <td th:text="${Enrollment.lesson.lessonNum}"></td>
+	            <td th:text="${Enrollment.member.memberNum}"></td>
+				<td th:text="${Enrollment.opt}"></td>
+	            <td th:text="${Enrollment.paymentState}"></td>
+	            <td th:text="${#temporals.format(Enrollment.enrollDate, 'yyyy-MM-dd HH:mm')}"></td>
+	            <td>
+	                <form th:action="@{/order/pay/{id}(id=${Enrollment.id})}" method="post">
+	                    <button type="submit" class="action-button">결제</button>
+	                </form>
+	            </td>
+	        </tr>
+	    </tbody>
+	</table>
+	
+    <h1>수업</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>이름</th>         
+                <th>소개</th>
+                <th>생성일</th>
+                <th>수정일</th>
+                <th>작업</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="lesson : ${lessons}">
+                <td th:text="${lesson.lessonNum}"></td>
+                <td th:text="${lesson.lname}"></td>          
+                <td th:text="${lesson.introduce}"></td>
+                <td th:text="${#temporals.format(lesson.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(lesson.modifyDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <td>
+                    <a th:href="@{/lesson/modify/{id}(id=${lesson.lessonNum})}">수정</a>
+                    <a th:href="@{/lesson/delete/{id}(id=${lesson.lessonNum})}">삭제</a>
+					
+                </td>
+            </tr>
+        </tbody>
+    </table>
+	
+	
+	<h1>수업옵션</h1>
+	<table>
+	        <thead>
+	            <tr>	                
+					<th>강의번호</th>
+	                <th>b(Basic) s(Standard) p(Professional)</th>         
+	                <th>준비물제공여부</th>
+	                <th>강의실제공여부</th>
+	                <th>1회당레슨시간</th>
+	                <th>주당강의횟수</th>
+					<th>총강의횟수</th>
+					<th>가격</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr th:each="lessonOption : ${lessonOption}">
+	                <td th:text="${lessonOption.lessonNum.lessonNum}"></td>
+					<td th:text="${lessonOption.loption}"></td> 
+	                <td th:text="${lessonOption.needs}"></td>
+					<td th:text="${lessonOption.place}"></td>         
+	                <td th:text="${lessonOption.onetime}"></td>
+					<td th:text="${lessonOption.weekdate}"></td>
+					<td th:text="${lessonOption.totaldate}"></td>
+					<td th:text="${lessonOption.price}"></td>
+					
+					<td>
+	                  
+						
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+		
+		
+		
+		
+    <h1>회원</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>번호</th>
+                <th>ID</th>
+                <th>이름</th>
+                <th>생년월일</th>
+                <th>전화번호</th>
+                <th>이메일</th>
+                <th>성별</th>
+                <th>주소</th>
+                <th>작업</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="member : ${members}">
+                <td th:text="${member.memberNum}"></td>
+                <td th:text="${member.memberId}"></td>
+                <td th:text="${member.memberName}"></td>
+                <td th:text="${#temporals.format(member.birth, 'yyyy-MM-dd')}"></td>
+                <td th:text="${member.phone}"></td>
+                <td th:text="${member.email}"></td>
+                <td th:text="${member.gender}"></td>
+                <td th:text="${member.address}"></td>
+                <td>
+                    <a th:href="@{/member/modify/{id}(id=${member.memberId})}">수정</a>
+                    <a th:href="@{/member/delete/{id}(id=${member.memberId})}">삭제</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+	<h1>장바구니</h1>
+	<table>
+			    <thead>
+			        <tr>
+			            <th>번 호</th>
+			            <th>강의 제목</th>
+						<th>강의옵션</th>
+			            <th>강의 내용</th>
+						<th>담은 날짜</th>
+						<th>담은 사람</th>
+						<th>관 리</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			        <tr th:each="cart : ${cart}">
+			            <td th:text="${cart.listNum}"></td>
+			            <td th:text="${cart.lesson.lname}"></td>
+						<td th:text="${cart.opt}"></td>
+			            <td th:text="${cart.lesson.introduce}"></td>
+			            <td th:text="${#temporals.format(cart.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+						<td th:text="${cart.member.memberName}"></td>
+						<td><a th:href="@{/cart/delete/{id}(id=${cart.listNum})}">삭제</a></td>
+			        </tr>
+			    </tbody>
+			</table>
+			<h1>카테고리</h1>
+			<div class="category-container">
+			    <div th:each="entry : ${categoriesByFirClass}" class="category-group">
+			        <h3 th:text="${entry.key}"></h3>
+			        <div class="subcategories">
+			            <div th:each="category : ${entry.value}" class="category-item">
+			                <form th:action="@{/category/modify/{id}(id=${category.categoryNum})}" method="post">
+			                    <div class="category-info">
+			                        <span th:text="${category.categoryNum}"></span>
+			                        <input type="hidden" th:name="firClass" th:value="${category.firClass}">
+			                        <div class="input-group">
+			                            <label for="secClass">소분류:</label>
+			                            <input type="text" id="secClass" th:name="secClass" th:value="${category.secClass}" required>
+			                        </div>
+			                    </div>
+			                    <div class="category-actions">
+			                        <button type="submit">수정</button>
+			                        <a th:href="@{/category/delete/{id}(id=${category.categoryNum})}">삭제</a>
+			                    </div>
+			                </form>
+			            </div>
+			        </div>
+			    </div>
+			</div>
+</body>
+</html>

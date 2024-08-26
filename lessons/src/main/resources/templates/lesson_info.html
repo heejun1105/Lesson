@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>회원 정보 수정</title>
+</head>
+<link rel="stylesheet" href="/signup_form.css" />
+
+<body>
+    <form th:action="@{/lesson/modify/{lessonNum}(lessonNum=${lesson.lessonNum})}" method="post" th:object="${lesson}">
+        <table>
+        <tr><td><h2>lesson modify</h2></td></tr>
+
+    
+
+        <tr><td>제목</td></tr>
+        <tr><td><input type="text" th:field="*{lname}"></td></tr>
+
+        
+        <tr><td>설명</td></tr>
+        <tr><td><input type="text" th:field="*{introduce}"></td></tr>
+
+        <tr><td>
+			<button type="submit">정보수정</button>
+            <button type="button" onclick="window.history.back();">돌아가기</button>
+		</td></tr>
+		</table>
+    </form>
+    </body>
+</html>

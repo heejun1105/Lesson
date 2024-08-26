@@ -1,0 +1,412 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Jua&family=Noto+Sans+KR:wght@100..900&display=swap');
+
+body {
+    font-family: Arial, sans-serif;
+  margin: 0;
+    padding: 0;
+   
+}
+
+
+.content {
+    padding: 20px;
+    text-align: center;
+}
+
+.content h2 {
+    margin-top: 30px;
+    margin-bottom: 10px;
+    font-size: 30px;
+}
+
+.content h6 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 12px;
+}
+
+.banner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    width: 100%;
+    max-width: 1800px; 
+    margin: 30px auto;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 0;
+    position: relative;
+
+   
+}
+
+.banner {
+    width: 100%; 
+    height: 100%; 
+    overflow: hidden;
+}
+
+
+.banner img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.banner p {
+    padding: 10px;
+    margin: 0;
+    
+}
+
+/* 배너 슬라이드 */
+
+
+
+.banner-slider {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.banner-section input[id*="slide"] {
+    display:none;
+}
+
+/* 슬라이드 영역 - max-width 크기를 조절*/
+.banner-section .slidewrap {
+   	max-width:100%;
+    height: auto;
+    margin:0 auto;
+    overflow:hidden;
+}
+
+.banner-section .slidelist {
+    white-space:nowrap;
+    font-size:0;
+}
+
+.banner-section .slidelist > li {
+    display:inline-block;
+    vertical-align:middle;
+    width:100%;
+    transition:all .5s;
+}
+
+.banner-section .slidelist > li > a {
+    display:block;
+    position:relative;
+}
+
+.banner-section .slidelist > li > a img {
+    width: 1800px;
+    height: 500px;
+}
+
+
+.banner-section .slidelist label {
+    position:absolute;
+    z-index:1;top:50%;
+    transform:translateY(-50%);
+    padding:50px;
+    cursor:pointer;
+}
+
+.banner-section .slidelist .left {
+    left:30px;background:url('./mp/left.png') center center / 100% no-repeat;
+}
+
+.banner-section .slidelist .right {
+    right:30px;background:url('./mp/right.png') center center / 100% no-repeat;
+}
+
+/* INPUT 체크되면 변화값이 li까지 전달되는 스타일 */
+.banner-section input[id="banner01"]:checked ~ .slidewrap .slidelist > li {
+    transform:translateX(0%);
+}
+
+.banner-section input[id="banner02"]:checked ~ .slidewrap .slidelist > li {
+    transform:translateX(-100%);
+}
+
+.banner-section input[id="banner03"]:checked ~ .slidewrap .slidelist > li {
+    transform:translateX(-200%);
+}
+
+.banner-section input[id*="banner"] {
+    display: none; 
+}
+
+
+
+
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 100px;
+}
+
+.card {
+    width: 30%;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.card p {
+    padding: 10px;
+    margin: 0;
+    
+}
+
+.text-caption {
+    font-weight: 550;
+}
+
+
+
+.des {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+     
+}
+.des img {
+    width: 100%;
+    height: auto;
+}
+.des-caption {
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    color: white;
+    padding: 10px;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.des-caption h2 {
+    margin: 0 0 5px 0; 
+}
+
+.des-caption p {
+    margin: 0;
+}
+
+.learn-more {
+    display: inline-block;
+    padding: 5px 5px;
+    background-color: #3a86ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px; 
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: nowrap;
+    margin-bottom: 100px;
+}
+
+.cust-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+.cust {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    text-align: left;
+    width: auto;
+    margin: 0 10px;
+}
+.cust img {
+    width: 450px;
+    height: 315px;
+    border-bottom: 1px solid #ddd;
+}
+.cust .content-wrapper {
+    padding: 10px;
+}
+.cust h2 {
+    font-size: 1.5em;
+    color: #333;
+    margin: 0;
+}
+.cust p {
+    font-size: 1em;
+    color: #666;
+    background-color: #f5f5f5;
+    padding: 15px;
+    margin: 0;
+    min-height: 130px;
+    max-width: 400px;
+}
+
+.cust .highlight {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.content-wrapper a {
+    color: black;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.highlight {
+    color: black;
+}
+
+.cust-more {
+    text-decoration: none;
+    margin-top: 20px;
+    display: inline-block;
+    align-self: flex-start;
+}
+
+
+/* 추천 슬라이드 */
+
+.slider {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.slider-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 300%; /* 각 슬라이드의 개수에 맞게 수정 필요 */
+}
+
+.slide {
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.button-container {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.prev, .next {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+* {
+    margin:0;
+    padding:0;
+}
+
+.section input[id*="slide"] {
+    display:none;
+}
+
+
+.section .slidewrap {
+    max-width:auto;
+    height: auto;
+    margin:0 auto;
+    overflow:hidden;
+}
+
+.section .slidelist {
+    white-space:nowrap;
+    font-size:0;
+}
+
+.section .slidelist > li {
+    display:inline-block;
+    vertical-align:middle;
+    width:100%;
+    transition:all .5s;
+}
+
+.section .slidelist > li > a {
+    display:block;
+    position:relative;
+}
+
+.section .slidelist > li > a img {
+    width: 600px;
+    height: 300px;
+}
+
+
+.section .slidelist label {
+    position:absolute;
+    z-index:1;top:50%;
+    transform:translateY(-50%);
+    padding:50px;
+    cursor:pointer;
+}
+
+
+.section input[id="slide01"]:checked ~ .slidewrap .slidelist > li {
+    transform:translateX(0%);
+}
+
+.section input[id="slide02"]:checked ~ .slidewrap .slidelist > li {
+    transform:translateX(-100%);
+}
+
+.section input[id="slide03"]:checked ~ .slidewrap .slidelist > li {
+    transform:translateX(-200%);
+}
+
+
+.section input[id="slide04"]:checked ~ .slidewrap .slidelist > li {
+    transform:translateX(0%);
+}
+
+.section input[id="slide05"]:checked ~ .slidewrap .slidelist > li {
+    transform:translateX(-100%);
+}
+
+.section input[id="slide06"]:checked ~ .slidewrap .slidelist > li {
+    transform:translateX(-200%);
+}
+
+.nav-buttons {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(-50%);
+}
+
+.left-button, .right-button {
+    cursor: pointer;
+}

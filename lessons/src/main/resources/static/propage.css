@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-color: #3a86ff;
+  --secondary-color: #f8f9fa;
+  --text-color: #212529;
+  --light-gray: #e9ecef;
+  --dark-gray: #6c757d;
+  --success-color: #2ecc71;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.main-container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 20px 20px;
+  display: flex;
+  gap: 20px;
+  align-items: stretch;
+  min-height: 100vh;
+}
+
+.user-form {
+  flex: 0 0 25%;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  padding: 20px;
+  border-radius: 12px;
+  background-color: var(--secondary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.info-form {
+  flex: 0 0 75%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 100%;
+}
+
+.user-form h2 {
+  font-size: 34px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--text-color);
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 0; 
+}
+
+.user-info {
+  margin-bottom: 20px;
+}
+
+.user-info label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.user-info input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--light-gray);
+  border-radius: 8px;
+  font-size: 16px;
+  box-sizing: border-box; /* Ensures padding and border are included in the width */
+}
+
+button {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  background-color: #2a75e6;
+  transform: translateY(-2px);
+}
+
+button.member-mod {
+  background: none;
+  color: inherit;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+  transition: none;
+}
+
+button.member-mod img {
+  width: 35px;
+  height: 35px;
+  margin: 0 0 0 55px;
+  padding: 0;
+  border: none;
+  display: inline-block;
+  vertical-align: middle;
+  box-shadow: none;
+  background: none;
+  max-width: 100%;
+}
+
+.lesson-form, .admin-form {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  border-radius: 12px;
+  background-color: var(--secondary-color);
+}
+
+.lesson-form {
+  flex: 1;
+}
+
+.create-lesson, .admin-lesson, .admin-member, .admin-post {
+  margin-bottom: 20px;
+}
+
+.btn-text {
+  font-size: 16px;
+  color: var(--dark-gray);
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .main-container {
+    flex-direction: column;
+  }
+
+  .user-form, .info-form {
+    flex: 1 1 100%;
+    padding: 20px 10px;
+  }
+
+  .lesson-info {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .lesson-info img {
+    margin-bottom: 10px;
+  }
+
+.memform {
+  text-align: center;
+  margin: 0 0 25px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-file-button {
+   display: inline-block;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px 20px; 
+  border-radius: 8px;
+  font-size: 14px; 
+  font-weight: 600; 
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-container {
+  display: flex;
+  gap: 10px;
+  align-items: center; 
+}
+
+.custom-file-button:hover {
+  background-color: #2a75e6;
+  transform: translateY(-2px);
+}
+
+.upload-container button[type="submit"] {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-container button[type="submit"]:hover {
+  background-color: #2a75e6;
+  transform: translateY(-2px);
+}
+
+.file-input {
+  display: none;
+}
+}

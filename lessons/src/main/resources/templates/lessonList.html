@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://kit.fontawesome.com/1f2e8e4916.js" crossorigin="anonymous"></script>
+    <title>검색결과</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+            margin-right: 10px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        
+    </style>
+</head>
+	<body>
+		<h1>수업</h1>
+		<table>
+		    <thead>
+		        <tr>
+		            <th>번호</th>
+		            <th>이름</th>
+		            <th>소개</th>
+		            <th>대분류</th>
+		            <th>소분류</th>
+					<th>작성자</th>
+		            <th>생성일</th>
+		            <th>수정일</th>
+		        </tr>
+		    </thead>
+			<tbody>
+			    <tr th:each="lessonWithMember : ${lessons}">
+			        <td th:text="${lessonWithMember.lesson.lessonNum}"></td>
+			        <td th:text="${lessonWithMember.lesson.lname}"></td>
+			        <td th:text="${lessonWithMember.lesson.introduce}"></td>
+			        <td th:text="${lessonWithMember.lesson.categoryNum?.firClass}"></td>
+			        <td th:text="${lessonWithMember.lesson.categoryNum?.secClass}"></td>
+			        <td th:text="${lessonWithMember.memberName}"></td>
+			        <td th:text="${#temporals.format(lessonWithMember.lesson.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+			        <td th:text="${#temporals.format(lessonWithMember.lesson.modifyDate, 'yyyy-MM-dd HH:mm')}"></td>			       
+			    </tr>
+			</tbody>
+		</table>
+			
+		<footer th:replace="~{footer :: footerFragment}"></footer>
+	</body>
+</div>
+</html>

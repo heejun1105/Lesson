@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" />
+    <title>결제 성공</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .success-container {
+            text-align: center;
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #4CAF50;
+        }
+        p {
+            color: #333;
+        }
+        #countdown {
+            font-weight: bold;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+	<div class="success-container">
+	        <h1>🎉 결제 성공! 🎉</h1>
+	        <p>축하합니다! 결제가 성공적으로 완료되었습니다.</p>
+	        <p>고객님의 소중한 주문에 감사드립니다.</p>
+	        <p><span id="countdown">5</span>초 후 이전 페이지로 이동합니다.</p>
+	    </div>
+
+	    <script th:inline="javascript">
+	        let count = 5;
+	        const countdownElement = document.getElementById('countdown');
+	        const previousUrl = /*[[${previousUrl}]]*/ '/';
+
+	        const countdownTimer = setInterval(() => {
+	            count--;
+	            countdownElement.textContent = count;
+	            if (count <= 0) {
+	                clearInterval(countdownTimer);
+	                window.location.href = previousUrl;
+	            }
+	        }, 1000);
+	    </script>
+	</body>
+	</html>

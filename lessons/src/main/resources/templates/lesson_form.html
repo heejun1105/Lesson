@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>레슨 등록</title>
+    <link rel="stylesheet" href="/lesson_form.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <div class="subject">레슨 등록</div>
+            <div class="subtitle">재능을 펼쳐보세요!</div>
+        </div>
+
+        <div class="main">
+            <form id="lessonForm" th:action="@{/lesson/create-with-options}" method="post" enctype="multipart/form-data" class="les_info">
+                <!-- 레슨 정보 -->
+                <table class="les_de">
+                    <tr>
+                        <td class="t_title need">레슨제목</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="hidden" name="proNum" th:value="${member.proNum.proNum}" readonly>
+                            <input type="text" name="lname" class="t_title_inp">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="t_title need">레슨설명</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <textarea name="introduce" class="clob"></textarea>
+                        </td>
+                    </tr>
+					<tr>
+					    <td class="t_title need">레슨 이미지</td>
+					</tr>
+					<tr>
+					    <td>   
+					    <input type="file" name="file" accept="image/*"> 
+					    </td>
+					</tr>
+
+				<tr>
+				    <td class="t_title need">카테고리 선택</td>
+				</tr>
+				<tr>
+				    <td class="ca_sel">
+				        <select id="firClass" name="firClass">
+				            <option value="">대분류 선택</option>
+				            <th:block th:each="entry : ${categories}">
+				                <option th:value="${entry.key}" th:text="${entry.key}"></option>
+				            </th:block>
+				        </select>
+				        <select id="secClass" name="secClass">
+				            <option value="">소분류 선택</option>
+				        </select>
+				        <input type="hidden" id="categoryNum" name="categoryNum">
+				    </td>
+				</tr>
+				</table>
+                <!-- 옵션 선택 -->
+				<div class="opt_select_title">
+				        <div class="opt-title need">옵션선택(1개 이상)</div>
+				        <div class="opt_select">
+				            <input type="checkbox" name="selectedOptions" value="b" id="opt1" class="chk_b" checked>
+				            <div class="chk_name">Basic</div>
+				            <input type="checkbox" name="selectedOptions" value="s" id="opt2" class="chk_s">
+				            <div class="chk_name">Standard</div>
+				            <input type="checkbox" name="selectedOptions" value="p" id="opt3" class="chk_p">
+				            <div class="chk_name">Professional</div>
+				        </div>
+				    </div>
+
+				    <!-- 옵션 상세 정보 (각 옵션별로 동일한 구조 반복) -->
+				    <div class="opt">
+				        <div class="op1 option-section">
+				            <table>
+				                <tr>
+				                    <td>Basic</td>
+				                    <td class="opt_side">
+				                     <div>
+				                            <div class="need">옵션설명</div>
+				                           <textarea name="info_b"></textarea>
+				                          
+				                        </div>
+				                        <div>
+				                            <div class="need">준비물제공여부</div>
+				                            <input type="radio" name="needs_b" value="true"> 예
+				                            <input type="radio" name="needs_b" value="false"> 아니오
+				                        </div>
+				                        <div>
+				                            <div class="need">강의실 제공여부</div>
+				                            <input type="radio" name="place_b" value="true"> 예
+				                            <input type="radio" name="place_b" value="false"> 아니오
+				                        </div>
+				                        <div>
+				                            <div class="opin need">1회당 레슨시간</div>
+				                            <input type="text" name="onetime_b" placeholder="ex)3" class="nor_inp">
+				                        </div>
+				                        <div>
+				                            <div class="opin need">주당 강의횟수(회)</div>
+				                            <input type="text" name="weekdate_b" placeholder="ex)3" class="nor_inp">
+				                        </div>
+				                        <div>
+				                            <div class="opin need">총강의횟수(회)</div>
+				                            <input type="text" name="totaldate_b" placeholder="ex)50" class="nor_inp">
+				                        </div>
+				                        <div>
+				                            <div class="opin need">가격(원)</div>
+				                            <input type="text" name="price_b" placeholder="ex)100000" class="nor_inp">
+				                        </div>
+				                    </td>
+				                </tr>
+				            </table>
+				        </div>
+						<!-- Standard 옵션 -->
+						<div class="op2 option-section" style="display:none;">
+						    <table>
+						        <tr>
+						            <td>Standard</td>
+						            <td class="opt_side">
+						                <div>
+				                            <div class="need">옵션설명</div>
+				                           <textarea name="info_s"></textarea>
+				                          
+				                        </div>
+						                <div>
+						                    <div class="need">준비물제공여부</div>
+						                    <input type="radio" name="needs_s" value="true"> 예
+						                    <input type="radio" name="needs_s" value="false"> 아니오
+						                </div>
+						                <div>
+						                    <div class="need">강의실 제공여부</div>
+						                    <input type="radio" name="place_s" value="true"> 예
+						                    <input type="radio" name="place_s" value="false"> 아니오
+						                </div>
+						                <div>
+						                    <div class="opin need">1회당 레슨시간</div>
+						                    <input type="text" name="onetime_s" placeholder="ex)3" class="nor_inp">
+						                </div>
+						                <div>
+						                    <div class="opin need">주당 강의횟수(회)</div>
+						                    <input type="text" name="weekdate_s" placeholder="ex)3" class="nor_inp">
+						                </div>
+						                <div>
+						                    <div class="opin need">총강의횟수(회)</div>
+						                    <input type="text" name="totaldate_s" placeholder="ex)50" class="nor_inp">
+						                </div>
+						                <div>
+						                    <div class="opin need">가격(원)</div>
+						                    <input type="text" name="price_s" placeholder="ex)100000" class="nor_inp">
+						                </div>
+						            </td>
+						        </tr>
+						    </table>
+						</div>
+						<!-- Professional 옵션 -->
+						<div class="op3 option-section" style="display:none;">
+						    <table>
+						        <tr>
+						            <td>Professional</td>
+						            <td class="opt_side">
+						                <div>
+				                            <div class="need">옵션설명</div>
+				                           <textarea name="info_p"></textarea>
+				                          
+				                        </div>
+						                <div>
+						                    <div class="need">준비물제공여부</div>
+						                    <input type="radio" name="needs_p" value="true"> 예
+						                    <input type="radio" name="needs_p" value="false"> 아니오
+						                </div>
+						                <div>
+						                    <div class="need">강의실 제공여부</div>
+						                    <input type="radio" name="place_p" value="true"> 예
+						                    <input type="radio" name="place_p" value="false"> 아니오
+						                </div>
+						                <div>
+						                    <div class="opin need">1회당 레슨시간</div>
+						                    <input type="text" name="onetime_p" placeholder="ex)3" class="nor_inp">
+						                </div>
+						                <div>
+						                    <div class="opin need">주당 강의횟수(회)</div>
+						                    <input type="text" name="weekdate_p" placeholder="ex)3" class="nor_inp">
+						                </div>
+						                <div>
+						                    <div class="opin need">총강의횟수(회)</div>
+						                    <input type="text" name="totaldate_p" placeholder="ex)50" class="nor_inp">
+						                </div>
+						                <div>
+						                    <div class="opin need">가격(원)</div>
+						                    <input type="text" name="price_p" placeholder="ex)100000" class="nor_inp">
+						                </div>
+						            </td>
+						        </tr>
+						    </table>
+						</div>
+
+				   </div>
+				    <div class="but">
+				        <button class="sub-but" type="submit">제출하기</button>
+				    </div>
+				</form>
+				</div>
+				</div>
+				<script th:inline="javascript">
+				/*<![CDATA[*/
+				var categories = /*[[${allCategories}]]*/ [];
+				/*]]>*/
+
+				$(document).ready(function(){
+				    console.log("Categories:", categories); // 디버깅을 위한 로그
+
+				    var firClassSelect = $('#firClass');
+				    var secClassSelect = $('#secClass');
+
+				    function uploadImage() {
+				        var formData = new FormData(document.getElementById('imageUploadForm'));
+				        $.ajax({
+				            url: '/lesson/upload-image',
+				            type: 'POST',
+				            data: formData,
+				            processData: false,
+				            contentType: false,
+				            success: function(response) {
+				                if(response.success) {
+				                    $('#lessonImage').val(response.fileName);
+				                    alert('이미지가 성공적으로 업로드되었습니다.');
+				                } else {
+				                    alert('이미지 업로드 실패: ' + response.message);
+				                }
+				            },
+				            error: function() {
+				                alert('이미지 업로드 중 오류가 발생했습니다.');
+				            }
+				        });
+				    }
+
+				    function updateSecClassOptions(selectedFirClass) {
+				        secClassSelect.empty().append($('<option>', {
+				            value: '',
+				            text: '소분류 선택'
+				        }));
+
+				        var filteredCategories = categories.filter(function(c) {
+				            return c.firClass === selectedFirClass;
+				        });
+				        console.log("Filtered categories:", filteredCategories); // 디버깅을 위한 로그
+
+				        filteredCategories.forEach(function(category) {
+				            secClassSelect.append($('<option>', {
+				                value: category.categoryNum,
+				                text: category.secClass
+				            }));
+				        });
+				    }
+
+				    function toggleOptionSection(optType) {
+				        var optClass = ".op" + (optType === 'b' ? '1' : (optType === 's' ? '2' : '3'));
+				        $(optClass).toggle($('input[name="selectedOptions"][value="' + optType + '"]').is(":checked"));
+				    }
+
+				    function appendOptionData(formData, optType) {
+				        if ($('input[name="selectedOptions"][value="' + optType + '"]').is(':checked')) {
+				            formData.append('needs_' + optType, $('input[name="needs_' + optType + '"]:checked').val() || 'false');
+				            formData.append('place_' + optType, $('input[name="place_' + optType + '"]:checked').val() || 'false');
+				            formData.append('onetime_' + optType, $('input[name="onetime_' + optType + '"]').val() || '');
+				            formData.append('weekdate_' + optType, $('input[name="weekdate_' + optType + '"]').val() || '');
+				            formData.append('totaldate_' + optType, $('input[name="totaldate_' + optType + '"]').val() || '');
+				            formData.append('price_' + optType, $('input[name="price_' + optType + '"]').val() || '');
+				        }
+				    }
+
+				    // 이벤트 리스너 설정
+				    firClassSelect.change(function() {
+				        updateSecClassOptions($(this).val());
+				    });
+
+				    secClassSelect.change(function() {
+				        $('#categoryNum').val($(this).val());
+				    });
+
+				    $(".chk_b, .chk_s, .chk_p").change(function(){
+				        toggleOptionSection($(this).val());
+				    });
+
+				    $("#lessonForm").submit(function(e){
+				        e.preventDefault();
+				        var formData = new FormData(this);
+
+				        // 카테고리 번호 추가
+				        formData.append('categoryNum', $('#categoryNum').val());
+
+				        // 파일 입력 필드에서 선택된 파일 가져오기
+				        var fileInput = $('input[type="file"]')[0];
+				        if(fileInput.files.length > 0) {
+				            formData.append("file", fileInput.files[0]);
+				        }
+
+				        // 옵션 데이터 추가
+				        ['b', 's', 'p'].forEach(function(optType) {
+				            appendOptionData(formData, optType);
+				        });
+
+				        $.ajax({
+				            url: $(this).attr('action'),
+				            type: 'POST',
+				            data: formData,
+				            processData: false,
+				            contentType: false,
+				            success: function(response){
+				                if(response.success) {
+				                    alert('레슨과 옵션이 성공적으로 생성되었습니다. 레슨 번호: ' + response.lessonNum);
+				                    // 성공 후 처리 (예: 페이지 리다이렉트)
+									window.location.href = '/';
+				                } else {
+				                    alert('오류가 발생했습니다: ' + response.message);
+				                }
+				            },
+				            error: function(xhr, status, error){
+				                alert('오류가 발생했습니다: ' + xhr.responseText);
+				                console.error('Ajax 오류:', status, error);
+				                console.error('서버 응답:', xhr.responseText);
+				            }
+				        });
+				    });
+
+				    // 초기 설정
+				    if($(".chk_b").is(":checked")){
+				        $(".op1").css("display","block");
+				    }
+				});
+				</script>      
+
+				
+				</body>
+				</html>

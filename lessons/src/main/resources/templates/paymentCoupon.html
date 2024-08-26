@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8" />
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .lesson-info {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .lesson-name {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .lesson-price {
+            font-size: 20px;
+            color: #e44d26;
+        }
+        .coupon-section {
+            margin-bottom: 20px;
+        }
+        #coupon-button {
+            position: absolute;
+            left: -9999px;
+        }
+        #payment-button {
+            background-color: white;
+            color: black;
+            border: 2px solid #008CBA;
+            font-size: 18px;
+            padding: 15px 32px;
+            display: block;
+            margin: 20px auto;
+            width: 200px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="lesson-info">
+        <div class="lesson-name">레슨 이름: [[${enrollment.lesson.lname}]]</div>
+        <div class="lesson-price">가격: [[${enrollment.lesson.price}]]원</div>
+    </div>
+
+    <div class="coupon-section">
+        <input type="checkbox" id="coupon-checkbox">
+        <label for="coupon-checkbox">5,000원 쿠폰 적용</label>
+        <button id="coupon-button" style="display:none;">쿠폰 적용</button>
+    </div>
+
+    <!-- 결제 UI -->
+    <div id="payment-method"></div>
+    <!-- 이용약관 UI -->
+    <div id="agreement"></div>
+    <!-- 결제하기 버튼 -->
+    <button id="payment-button">결제하기</button>
+
+    <script>
+    main();
+
+    async function main() {
+        const button = document.getElementById("payment-button");
+        const couponCheckbox = document.getElementById("coupon-checkbox");
+        const cost = Number('[[${enrollment.lesson.price}]]');
+        const orderNumber = 'abc' + '[[${enrollment.id}]]' + 'abc';
+
+        // ------ 결제위젯 초기화 ------
+        const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+        const tossPayments = TossPayments(clientKey);
+        // 회원 결제
+        const customerKey = "ZkGieuyqxil7cMS1G1wv";
+        const widgets = tossPayments.widgets({
+            customerKey,
+        });
+
+        // ------ 주문의 결제 금액 설정 ------
+        await widgets.setAmount({
+            currency: "KRW",
+            value: cost,
+        });
+
+        // ------ 결제 UI 렌더링 ------
+        await widgets.renderPaymentMethods({
+            selector: "#payment-method",
+            variantKey: "DEFAULT",
+        });
+
+        // ------ 이용약관 UI 렌더링 ------
+        await widgets.renderAgreement({ selector: "#agreement", variantKey: "AGREEMENT" });
+
+        // ------ 쿠폰 적용 체크박스 이벤트 ------
+        couponCheckbox.addEventListener("change", async function () {
+            if (couponCheckbox.checked) {
+                await widgets.setAmount({
+                    currency: "KRW",
+                    value: cost - 5000,
+                });
+            } else {
+                await widgets.setAmount({
+                    currency: "KRW",
+                    value: cost,
+                });
+            }
+        });
+
+        // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+        button.addEventListener("click", async function () {
+            await widgets.requestPayment({
+                orderId: orderNumber,
+                orderName: '[[${enrollment.lesson.lname}]]',
+                successUrl: window.location.origin + "/order/success",
+                failUrl: window.location.origin + "/order/fail",
+                customerEmail: "[[${enrollment.member.email}]]",
+                customerName: '[[${enrollment.member.memberName}]]',
+                customerMobilePhone: '[[${enrollment.member.phone}]]',
+            });
+        });
+    }
+    </script>
+</body>
+</html>

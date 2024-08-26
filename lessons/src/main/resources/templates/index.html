@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/main.css}"/>
+	<link rel="stylesheet" th:href="@{/navstyle4.css}"/>
+    <link rel="stylesheet" th:href="@{/login_form.css}"/>
+	<link rel="stylesheet" th:href="@{/footerstyle.css}"/>
+	
+    <link rel="stylesheet"
+ th:href="@{https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap}"/>
+    <script src="https://kit.fontawesome.com/1f2e8e4916.js" crossorigin="anonymous"></script>
+    <title>Lesson82</title>
+</head>
+
+<body>
+<nav th:replace="~{navbar :: navbarFragment}"></nav>
+    <!-- banner-section -->
+    <div class="banner-container">
+        <div class="banner">
+            <div class="banner-slider">
+                <div class="banner-section">
+                    <input type="radio" name="banner" id="banner01" checked>
+                    <input type="radio" name="banner" id="banner02">
+                    <input type="radio" name="banner" id="banner03">
+					<div class="slidewrap">
+					    <ul class="slidelist">
+					        <li th:each="banner : ${banners}">
+					            <a th:href="${banner.link}">
+					                <span>
+					                <img th:src="@{'/banner/' + ${banner.imageName}}">
+					                </span>
+					            </a>
+					        </li>
+					    </ul>
+						<div class="nav-buttons">
+							<span class="left-button" onclick="prevSlide3()">
+								<img src="/mp/left.png">
+							</span>
+							<span class="right-button" onclick="nextSlide3()">
+								<img src="/mp/right.png">
+							</span>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 설명 -->
+	<div class="content">
+	    <!-- Section 1 -->
+	    <h2>교육자 중심이 아닌, 수강생 위주의 진행</h2>
+	    <h6>Lesson82의 기능과 서비스에 관해 자세히 알아보세요.</h6>
+	    <div class="flex-container">
+	        <div class="des">
+	            <img th:src="@{'/banner/' + ${banner4.imageName}}" alt="교육과정 이미지1">
+	            <div class="des-caption">
+	                <h2>손쉽게 따라할 수 있는 체계적인 교육과정</h2>
+	                <p>시간과 장소에 상관없이 - 집 또는 카페, 출근길 버스에서도,<br> PC와 모바일 모두 이용가능</p>
+	                <a th:href="${banner4.link}" class="learn-more">자세히 알아보기</a>
+	            </div>
+	        </div>
+	        <div class="des">
+	            <img th:src="@{'/banner/' + ${banner5.imageName}}" alt="교육과정 이미지2">
+	            <div class="des-caption">
+	                <h2>1:1 개인부터 1:N 단체 교육까지</h2>
+	                <p>비슷한 실력의 사람들과 서로 소통하며 진행되는 교육<br>1:1 집중적인 개인 교육과정 까지 원하는 대로 선택 가능</p>
+	                <a th:href="${banner5.link}" class="learn-more">자세히 알아보기</a>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+    
+    
+    <!-- 추천 레슨 -->
+<div class="content">
+    <!-- Section 2 -->
+    <h2>나에게 맞는 추천 교육과정 살펴보기</h2>
+    <div class="card-container">
+        
+        <!-- Card 1 -->
+        <div class="card">
+            <div class="slider">
+                <div class="section">
+                    <input type="radio" name="slide1" id="slide01" checked>
+                    <input type="radio" name="slide1" id="slide02">
+                    <input type="radio" name="slide1" id="slide03">
+                    <div class="slidewrap">
+                        <ul class="slidelist">
+                            <li>
+                                <a>
+                                    <label for="slide03" class="left"></label>
+                                    <img src="/mp/slide01.jpg">
+                                    <label for="slide02" class="right"></label>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <label for="slide01" class="left"></label>
+                                    <img src="/mp/slide02.jpg">
+                                    <label for="slide03" class="right"></label>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <label for="slide02" class="left"></label>
+                                    <img src="/mp/slide03.jpg">
+                                    <label for="slide01" class="right"></label>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-caption">MBTI별 선호도 추천.</p>
+            </div>
+        </div>
+        
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="slider">
+                <div class="section">
+                    <input type="radio" name="slide2" id="slide04" checked>
+                    <input type="radio" name="slide2" id="slide05">
+                    <input type="radio" name="slide2" id="slide06">
+                    <div class="slidewrap">
+                        <ul class="slidelist">
+                            <li>
+                                <a>
+                                    <label for="slide06" class="left"></label>
+                                    <img src="/mp/slide04.jpg">
+                                    <label for="slide05" class="right"></label>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <label for="slide04" class="left"></label>
+                                    <img src="/mp/slide05.jpg">
+                                    <label for="slide06" class="right"></label>
+                                </a>
+                            </li>
+                            <li>
+                                <a>
+                                    <label for="slide05" class="left"></label>
+                                    <img src="/mp/slide06.jpg">
+                                    <label for="slide04" class="right"></label>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-caption">선택한 관심사 추천</p>
+            </div>
+        </div>
+        
+    </div>
+</div>
+ 
+
+    <div class="content">
+        <!-- Section 3 -->
+        <h2>수강생 맞춤형 강의</h2>
+        <h6>원하는 강의 주제에 맞는 카테고리를 골라 보세요.</h6>
+        <div class="cust-container">
+            <div class="cust">
+                <img src="/mp/cust1.jpg" alt="맞춤형 이미지1">
+                <div class="content-wrapper">
+                    <p><span class="highlight">웹표준 사이트 만들기</span><br><br>
+                        사이트를 만들기 위한 기초 강의로 코딩에 대한 기본을 배우고, 웹표준을 기반으로 코딩하는 방법을 익힙니다.<br>
+                        <a href="https://naver.com" class="cust-more">더 자세히 알아보기</a></p>
+                </div>
+            </div>
+            <div class="cust">
+                <img src="/mp/cust2.jpg" alt="맞춤형 이미지2">
+                <div class="content-wrapper">
+                    <p><span class="highlight">양식 레세피 실습</span><br><br>
+                        일상생활에서 손쉽게 만들어 먹을 수 있는 다양한 양식 조리법에 대해 배울 수 있습니다.<br>
+                        <a href="https://google.com" class="cust-more">더 자세히 알아보기</a></p>
+                </div>
+            </div>
+            <div class="cust">
+                <img src="/mp/cust3.jpg" alt="맞춤형 이미지3">
+                <div class="content-wrapper">
+                    <p><span class="highlight">1:1 개인부터 1:N 단체 교육까지</span><br><br>
+                        전직 법조인(검사,변호사) 또는 법률 관련 1:1 전문가들이 궁금한 점을 알기 쉽게 가르쳐 드립니다.<br>
+                        <a href="https://hkit.kr" class="cust-more">더 자세히 알아보기</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide3 = 1;
+        const totalSlides3 = 3;
+
+        function showSlide3(slideIndex) {
+            document.getElementById(`banner0${slideIndex}`).checked = true;
+        }
+
+        function nextSlide3() {
+            currentSlide3 = currentSlide3 % totalSlides3 + 1;
+            showSlide3(currentSlide3);
+        }
+		function prevSlide3() {
+		            currentSlide3 = (currentSlide3 - 2 + totalSlides3) % totalSlides3 + 1;
+		            showSlide3(currentSlide3);
+		}
+        setInterval(nextSlide3, 5000);
+        
+		        
+        let currentSlide1 = 1;
+        const totalSlides1 = 3;
+
+        function showSlide1(slideIndex) {
+            document.getElementById(`slide0${slideIndex}`).checked = true;
+        }
+
+        function nextSlide1() {
+            currentSlide1 = currentSlide1 % totalSlides1 + 1;
+            showSlide1(currentSlide1);
+        }
+
+        let currentSlide2 = 1;
+        const totalSlides2 = 3;
+
+        function showSlide2(slideIndex) {
+            document.getElementById(`slide0${slideIndex + 3}`).checked = true;
+        }
+
+        function nextSlide2() {
+            currentSlide2 = currentSlide2 % totalSlides2 + 1;
+            showSlide2(currentSlide2);
+        }
+
+        setInterval(nextSlide1, 3000); // 3초 마다 첫 번째 슬라이드 변경
+        setInterval(nextSlide2, 3000); 
+    </script>
+	
+	<footer th:replace="~{footer :: footerFragment}"></footer>
+</body>
+
+</html>
